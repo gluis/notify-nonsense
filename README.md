@@ -10,7 +10,7 @@ For inline, you can set up a trigger (like a button) to call the alert/confirmat
 
 For global usage, e.g. to come up when a context menu is called, you need to pass it params, and you call it with the global flag and options. See II. below for instructions
 
-For an example to test it out (there's a working example here), run npm start in folder and make changes to the main.js to see how the different versions behave.
+For an example to test it out (there's a working example here), run npm start in folder and make changes to the main.js to see how the different versions behave. See further below to see how to handle confirm responses.
 
 I.
 
@@ -59,4 +59,42 @@ In your main js file:
       event: 'contextmenu'
     }
     notifyNonsense.init(options)
+
+
+#### Confirm responses
+
+Alerts are easy to implement; confirmations are harder. To get at the info from the user's response, we need to set up an observer. Here's how:
+
+    // on page load:
+
+    // Create an observer using the 'nn-confirm-input' element:
+
+    // #nn-confirm-input is a dynamically generated element to record confirmation responses
+    let confirmResponse = document.getElementById("nn-confirm-input") // defaults to false
+
+    // Create callback to observe change in DOM element's 'value' attribute
+    const confirmatonCallback = function (mutations) {
+      mutations.forEach(mutation => {
+        if (mutation.type === 'attributes') {
+          if (mutation.target.value === 'true') {
+            console.log('The user responded OK!')
+          }
+        }
+      })
+    }
+
+    // Create config for MutationObserver and start observing
+    // Here, we only care about the attributes mutating
+    const observeConfirmation = function () {
+      var config = {
+        childList: false,
+        attributes: true
+      }
+      let observer = new MutationObserver(confirmatonCallback)
+      observer.observe(confirmResponse, config)
+    }
+
+    // Call your function
+    observeConfirmation()
+
 

@@ -12,6 +12,13 @@
     let isGlobal = false
 
     const setUpDefaults = () => {
+      createButtons()
+      createConfirmInput()
+      // This is an observer that can be used outside the library
+      // observeConfirmation()
+    }
+
+    const createButtons = () => {
       NN.nnOk = document.createElement('span')
       NN.nnCancel = document.createElement('span')
       NN.nnOk.innerHTML = 'Ok!'
@@ -20,8 +27,36 @@
       NN.nnOk.setAttribute('data-response', 'ok')
       NN.nnCancel.setAttribute('class', 'nn-action-button cancel')
       NN.nnCancel.setAttribute('data-response', 'cancel')
-      NN.response = false
     }
+
+    const createConfirmInput = () => {
+      NN.nnConfirmInput = document.createElement('input')
+      NN.nnConfirmInput.setAttribute('hidden', true)
+      NN.nnConfirmInput.setAttribute('type', 'text')
+      NN.nnConfirmInput.setAttribute('id', 'nn-confirm-input')
+      NN.nnConfirmInput.setAttribute('value', false)
+      document.body.appendChild(NN.nnConfirmInput)
+    }
+
+    // An observer set up to monitor confirmation button
+    // const confirmatonCallback = (mutations) => {
+    //   mutations.forEach(mutation => {
+    //     if (mutation.type === 'attributes') {
+    //       if (mutation.target.value === 'true') {
+
+    //       }
+    //     }
+    //   })
+    // }
+
+    // const observeConfirmation = () => {
+    //   var config = {
+    //     childList: false,
+    //     attributes: true
+    //   }
+    //   let observer = new MutationObserver(confirmatonCallback)
+    //   observer.observe(NN.nnConfirmInput, config)
+    // }
 
     const getAlertButtons = () => {
       const alertButtons = document.querySelectorAll('.nn-alert');
@@ -64,6 +99,9 @@
       e.preventDefault()
       const response = e.target.getAttribute('data-response')
       NN.response = response === 'ok' ? true : false
+      if (NN.response && NN.nnOk.hasAttribute('data-is-confirm')) {
+        NN.nnConfirmInput.setAttribute('value', true)
+      }
       closeWindow()
     }
 
@@ -82,6 +120,10 @@
         } else {
           document.querySelector('.cancel').classList.remove('nn-hide')
           document.querySelector('.nn-buttons').classList.remove('nn-single')
+          NN.nnOk.setAttribute('data-is-confirm', true)
+          if (NN.nnConfirmInput.getAttribute('value') === 'true') {
+            NN.nnConfirmInput.setAttribute('value', false)
+          }
         }
       }
     }
@@ -135,10 +177,6 @@
         getAlertButtons()
         getConfirmButtons()
       }
-    }
-
-    NN.getResponse = () => {
-      return NN.response
     }
 
     return NN

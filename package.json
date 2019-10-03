@@ -28,5 +28,8 @@
     "webpack-dev-server": "^3.8.0",
     "write-file-webpack-plugin": "^4.5.1",
     "autoprefixer": "^9.6.1"
+  },
+  "dependencies": {
+    "on-change": "^1.6.2"
   }
 }
