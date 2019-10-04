@@ -97,4 +97,6 @@ Alerts are easy to implement; confirmations are harder. To get at the info from 
     // Call your function
     observeConfirmation()
 
+#### Demo
 
+There's a [simple one](https://gluis.github.io/) that should help you out.
