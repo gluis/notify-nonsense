@@ -8,7 +8,8 @@
     "test": "echo \"Error: no test specified\" && exit 1",
     "webpack": "webpack",
     "start": "webpack-dev-server --mode development --watch --hot",
-    "build": "webpack --mode production"
+    "build": "webpack --mode production",
+    "clean": "rm dist/*hot-update*"
   },
   "keywords": [],
   "author": "gluis",
