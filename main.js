@@ -19,10 +19,10 @@ window.onload = () => {
   // create callback to observe change in DOM element's 'value' attribute
   const confirmatonCallback = function (mutations) {
     mutations.forEach(mutation => {
-      if (mutation.type === 'attributes') {
-        if (mutation.target.value === 'true') {
-          console.log('The user responded OK!')
-        }
+      if (mutation.type === 'attributes' && mutation.target.value === 'true') {
+        // if (mutation.target.value === 'true') {
+        console.log('The user responded OK!')
+        // }
       }
     })
   }
